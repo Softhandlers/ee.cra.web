@@ -18,7 +18,7 @@ class DataAccess:
                 tr.append(row)
             cur.close()  
             con.close()          
-        except (Exception,psycopg2.DatabaseError) as e:
+        except (Exception,db.DatabaseError) as e:
            print(e)
         #finally:
             #if con is not None:
