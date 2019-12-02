@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+        <title>EE</title>
+        <meta content="Admin Dashboard" name="description" />
+        <meta content="Themesbrand" name="author" />
+        <!-- App EE -->
+<link rel="shortcut icon" href="static/assets/images/ee.ico">
+        
+<!--Chartist Chart CSS -->
+<link rel="stylesheet" href="static/plugins/chartist/css/chartist.min.css">
+
+ <!-- App css -->
+<link href="static/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="static/assets/css/icons.css" rel="stylesheet" type="text/css" />
+<link href="static/assets/css/style.css" rel="stylesheet" type="text/css" />
+<script src="static/assets/js/jquery.min.js"></script>
+<script src="static/plugins/sweet-alert2/sweetalert.min.js"></script>
+
+<script src="static/assets/js/bootstrap.bundle.min.js"></script>
+<script src="static/assets/js/jquery.slimscroll.js"></script>
+<script src="static/assets/js/waves.min.js"></script>
+
+<!-- App js-->
+<script src="static/assets/js/app.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var goto = '{{html}}';
+        if('{{values}}'!= "")
+        {
+            $('#hdn_home_user_id').val('{{values[1]}}');
+            $('#hdn_home_user_role_id').val('{{values[2]}}');
+            $('#hdn_home_user_name').val('{{values[0]}}');
+            $('#hdn_web_url').val('{{values[3]}}');
+            $('#display_user_name').val('{{values[0]}}')
+        }
+        if(goto !="")
+            $("#box").load(goto);
+        
+    });
+    
+    </script>
+  </head>
+<body>
+        <input type="hidden" id="hdn_home_user_id" name="hdn_home_user_id" value="0">
+        <input type="hidden" id="hdn_home_user_role_id" name="hdn_home_user_role_id" value="0">
+        <input type="hidden" id="hdn_home_user_name" name="hdn_home_user_name" value="0">
+        <input type="hidden" id="hdn_web_url" name="hdn_web_url" value="">
+  <header id="topnav">
+            <div class="topbar-main">
+                <div class="container-fluid">
+
+                    <!-- Logo container-->
+                    <div class="logo">
+                        
+                        <a href="/home" class="logo">
+                            <img src="static/assets/images/logo-sm.png" alt="" class="logo-small">
+                            <img src="static/assets/images/logo-light.png" alt="" class="logo-large">
+                        </a>
+
+                    </div>
+
+                    <!-- End Logo container-->
+                    <div class="menu-extras topbar-custom">
+                        <ul class="navbar-right list-inline float-right mb-0">
+                            <li class="dropdown notification-list list-inline-item">
+                                <div class="dropdown notification-list nav-pro-img">
+                                        
+                                    <a class="dropdown-toggle nav-link arrow-none nav-user" data-toggle="dropdown" 
+                                    href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                    <span style="color:white;"><i class="fe-user"></i>{{values[0]}}</span>
+                                        <div class="arrow-down"></div>
+                                        <!--<label id="display_user_name" name="display_user_name" ClientIdMode="static"></label>-->
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                                        <!-- item-->
+                                        <a class="dropdown-item text-danger" href="/log_out"><i class="mdi mdi-power text-danger"></i> Logout</a>
+                                    </div>
+                                </div>
+                            </li>    
+                            
+                            <li class="menu-item list-inline-item">
+                                <!-- Mobile menu toggle-->
+                                <a class="navbar-toggle nav-link">
+                                    <div class="lines">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </a>
+                                <!-- End mobile menu toggle-->
+                            </li>
+
+                        </ul>
+                    </div>
+                    <!-- end menu-extras -->
+
+                    <div class="clearfix"></div>
+
+                </div> <!-- end container -->
+            </div>
+            <!-- end topbar-main -->
+
+            <!-- MENU Start -->
+            <div class="navbar-custom">
+                <div class="container-fluid">
+                    <div id="navigation">
+                        <!-- Navigation Menu-->
+                        <ul class="navigation-menu">
+                            <li class="has-submenu">
+                                <a href="/bice">Bice</a>
+                               
+                            </li>
+                            <li class="has-submenu">
+                                    <a href="/report"></i>Report</a>
+                                </li>
+                            <!--<li class="has-submenu"><i class="ti-home"><i class="ti-package"></i>
+                                <a href="#"><i class="ti-harddrives"></i>Components</a>
+                                <ul class="submenu">
+                                    <li class="has-submenu">
+                                        <a href="#">Email</a>
+                                        <ul class="submenu">
+                                            <li><a href="email-inbox.html">Inbox</a></li>
+                                            <li><a href="email-read.html">Email Read</a></li>
+                                            <li><a href="email-compose.html">Email Compose</a></li>
+                                        </ul>
+                                    </li>
+                                    
+                                    <li>
+                                        <a href="calendar.html">Calendar</a>
+                                    </li>
+                                    <li class="has-submenu">
+                                        <a href="#">Forms</a>
+                                        <ul class="submenu">
+                                            <li><a href="form-elements.html">Form Elements</a></li>
+                                            <li><a href="form-validation.html">Form Validation</a></li>
+                                            <li><a href="form-advanced.html">Form Advanced</a></li>
+                                            <li><a href="form-editors.html">Form Editors</a></li>
+                                            <li><a href="form-uploads.html">Form File Upload</a></li>
+                                            <li><a href="form-xeditable.html">Form Xeditable</a></li>
+                                            <li><a href="form-repeater.html">Form Repeater</a></li>
+                                            <li><a href="form-wizard.html">Form Wizard</a></li>
+                                            <li><a href="form-mask.html">Form Mask</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="has-submenu">
+                                        <a href="#">Charts</a>
+                                        <ul class="submenu">
+                                            <li><a href="charts-morris.html">Morris Chart</a></li>
+                                            <li><a href="charts-chartist.html">Chartist Chart</a></li>
+                                            <li><a href="charts-chartjs.html">Chartjs Chart</a></li>
+                                            <li><a href="charts-flot.html">Flot Chart</a></li>
+                                            <li><a href="charts-knob.html">Jquery Knob Chart</a></li>
+                                            <li><a href="charts-echart.html">E - Chart</a></li>
+                                            <li><a href="charts-sparkline.html">Sparkline Chart</a></li>
+                                        </ul>
+                                    </li>
+                                    
+                                    <li class="has-submenu">
+                                        <a href="#">Tables</a>
+                                        <ul class="submenu">
+                                            <li><a href="tables-basic.html">Basic Tables</a></li>
+                                            <li><a href="tables-datatable.html">Data Table</a></li>
+                                            <li><a href="tables-responsive.html">Responsive Table</a></li>
+                                            <li><a href="tables-editable.html">Editable Table</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="has-submenu">
+                                        <a href="#">Icons</a>
+                                        <ul class="submenu">
+                                            <li><a href="icons-material.html">Material Design</a></li>
+                                            <li><a href="icons-fontawesome.html">Font Awesome</a></li>
+                                            <li><a href="icons-ion.html">Ion Icons</a></li>
+                                            <li><a href="icons-themify.html">Themify Icons</a></li>
+                                            <li><a href="icons-dripicons.html">Dripicons</a></li>
+                                            <li><a href="icons-typicons.html">Typicons Icons</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="has-submenu">
+                                        <a href="#">Maps</a>
+                                        <ul class="submenu">
+                                            <li><a href="maps-google.html"> Google Map</a></li>
+                                            <li><a href="maps-vector.html"> Vector Map</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    </header>    
+        <div class="wrapper" id="box">
+            <div class="container-fluid">
+                <div class="page-title-box">
+                    <div class="row align-items-center">
+
+                        <div class="col-sm-6">
+                           <!-- <h4 class="page-title">Dashboard</h4>-->
+     
+                        </div>
+
+                    </div>
+                </div>
+            </div> 
+        </div> 
+    <!-- Footer -->
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="row">
+            <!--<div class="col-12">
+                2019  © Veltrix <span class="d-none d-sm-inline-block"> - Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesbrand</span>
+            </div>-->
+        </div>
+    </div>
+</footer>
+<!-- End Footer -->  
+    <!-- App's Basic Js  -->
+
+    </body>
+</html>

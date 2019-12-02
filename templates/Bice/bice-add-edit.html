@@ -1,0 +1,340 @@
+
+   <link href="static/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+   <link href="static/assets/css/icons.css" rel="stylesheet" type="text/css" />
+   <link href="static/assets/css/style.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="static/assets/js/jquery.min.js"></script>
+    <script type="text/javascript">
+    
+        $(document).ready(function(){
+            LoadCountyrddl();
+            if('{{bice_id}}' !=0)
+            {
+                var URL=$('#hdn_web_url').val()+ "/GetBiceDetails";
+                $.ajax({
+                    type:"GET",
+                    url:URL,
+                    success:function(data){
+                        if(data!=null)
+                        {
+                            if(data.BiceDetail!="")
+                            {       
+                                $('#BiceName').val(data.BiceDetail.Bice_Name);  
+                                $('#DoorNo').val(data.BiceDetail.Pin_Code);                        
+                                $('#ddlCountry').val(data.BiceDetail.Country_Id);
+                                GetStateddl($('#ddlCountry').val(),data.BiceDetail.State_Id);
+                                GetCityddl(data.BiceDetail.State_Id,data.BiceDetail.City_Id);
+                                $('#PinCode').val(data.BiceDetail.Pin_Code);
+                            }
+                        } 
+                    },
+                    error:function(x){
+                        alert('error');
+                    }
+                });
+            }
+        });
+        
+        function LoadCountyrddl(){
+            var URL=$('#hdn_web_url').val()+ "/GetAllCountries"
+            $.ajax({
+                type:"GET",
+                url:URL,
+                async:false,
+                beforeSend:function(x){ if(x && x.overrideMimeType) { x.overrideMimeType("application/json;charset=UTF-8"); } },
+                datatype:"json",
+                success: function (data){
+                    if(data.Countries != null)
+                    {
+                        $('#ddlCountry').empty();
+                        var count=data.Countries.length;
+                        if( count> 0)
+                        {
+                            $('#ddlCountry').append(new Option('Choose Country',''));
+                            for(var i=0;i<count;i++)
+                                $('#ddlCountry').append(new Option(data.Countries[i].Country_Name,data.Countries[i].Country_Id));
+                        }
+                        else
+                        {
+                            $('#ddlCountry').append(new Option('Choose Country',''));
+                        }
+                    }
+                },
+                error:function(err)
+                {
+                    alert('Error! Please try again');
+                    return false;
+                }
+            });
+            return false;
+        }
+        
+        function GetStateddl(CountryId,needed)
+        {
+            if(CountryId !=""){
+                var URL=$('#hdn_web_url').val()+ "/AllStatesBasedOnCountry"
+                $.ajax({
+                    type:"POST",
+                    url:URL,
+                    async:false,       
+                    beforeSend:function(x){ if(x && x.overrideMimeType) { x.overrideMimeType("application/json;charset=UTF-8"); } },
+                    datatype:"json", 
+                    data:{
+                        "country_id": CountryId                        
+                    },
+                    success: function (data){
+                        if(data.States != null)
+                        {
+                            $('#ddlState').empty();
+                            var count=data.States.length;
+                            if( count> 0)
+                            {
+                                $('#ddlState').append(new Option('Choose State',''));
+                                for(var i=0;i<count;i++)
+                                    $('#ddlState').append(new Option(data.States[i].State_Name,data.States[i].State_Id));
+                            }
+                            else
+                            {
+                                $('#ddlState').append(new Option('Choose State',''));
+                            }
+                        }
+                    },
+                    error:function(err)
+                    {
+                        alert('Error Loading States! Please try again');
+                        return false;
+                    }
+                });
+            }
+            else{
+                alert('Country is not selected');
+            }
+            if (needed !=0)
+            {
+                $('#ddlState').val(needed);
+            }
+            return false;
+        }
+
+        function GetCityddl(StateId,needed)
+        {
+            if(StateId !=""){
+            var URL=$('#hdn_web_url').val()+ "/AllCitiesBasedOnState"
+            $.ajax({
+                type:"POST",
+                url:URL,
+                async:false,       
+                beforeSend:function(x){ if(x && x.overrideMimeType) { x.overrideMimeType("application/json;charset=UTF-8"); } },
+                datatype:"json", 
+                data:{
+                    "state_id": StateId                        
+                },
+                success: function (data){
+                    if(data.Cities != null)
+                    {
+                        $('#ddlCity').empty();
+                        var count=data.Cities.length;
+                        if( count> 0)
+                        {
+                            $('#ddlCity').append(new Option('Choose City',''));
+                            for(var i=0;i<count;i++)
+                                $('#ddlCity').append(new Option(data.Cities[i].City_Name,data.Cities[i].City_Id));
+                        }
+                        else
+                        {
+                            $('#ddlCity').append(new Option('Choose City',''));
+                        }
+                    }
+                },
+                error:function(err)
+                {
+                    alert('Error! Please try again');
+                    return false;
+                }
+            });
+        }
+        else{
+            alert('State is not selected');
+        }
+            if (needed !=0)
+            {
+                $('#ddlCity').val(needed);
+            }
+            return false;
+        }
+        function add_popup_message(){
+            var URL=$('#hdn_web_url').val()+ "/add_bice_details";
+                $.ajax({
+                    type:"POST",
+                    url:URL,
+                    data:{
+                        "BiceName" : $('#BiceName').val(),
+                        "DoorNo":$('#DoorNo').val(),
+                        "Country":$('#ddlCountry').val(),
+                        "State":$('#ddlState').val(),
+                        "City":$('#ddlCity').val(),
+                        "Pincode":$("#PinCode").val(),
+                        "BiceId":'{{bice_id}}'
+                    },
+                    success:function(data){
+                        swal({   title:data.PopupMessage.message,
+                                text:data.PopupMessage.message+" Successfully !!",
+                                icon:"success",
+                                confirmButtonClass:"btn btn-confirm mt-2"
+                                }).then(function(){
+                                    window.location.href = '/after_popup_bice';
+                                }
+                                );
+                    //    alert("The Inserted/Upadated Id is "+data.PopupMessage.message);
+                    //    window.location.href="/after_popup"; 
+                    },
+                    error:function(x){
+                        alert('error');
+                    }
+                });
+        }
+
+    </script>
+            <div class="container-fluid">
+                <form action="javascript:add_popup_message();">
+                <!-- start page title -->
+                <div class="row">
+                    <!--
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">LN</a></li>
+                                    <li class="breadcrumb-item"><a href="/center">Centers</a></li>
+                                    <li class="breadcrumb-item active">Add-Edit Center</li>
+                                </ol>
+                            </div>
+                            <h4 class="page-title">Center Details</h4>
+                        </div>
+                    </div>
+                    -->
+                </div>     
+                <!-- end page title --> 
+                <br/>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card-box">
+                            <h4 class="header-title">Bice Details</h4>
+                            
+                            <br/>
+                            <div class="alert alert-warning d-none fade show">
+                                <h4>Oh snap!</h4>
+                                <p class="mb-0">This form seems to be invalid :(</p>
+                            </div>
+
+                            <div class="alert alert-info d-none fade show">
+                                <h4>Yay!</h4>
+                                <p class="mb-0">Everything seems to be ok :)</p>
+                            </div>
+
+                            <form id="demo-form" data-parsley-validate="">
+                                
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <label for="CenterName">Bice Name * :</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="text" class="form-control" name="BiceName" id="BiceName" required placeholder="Bice name">
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <label for="CenterName">Door No/Street * :</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="text" class="form-control" name="DoorNo" id="DoorNo" required placeholder="Door No / Street">
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <label for="ddlCountry">Country *:</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <select id="ddlCountry" class="form-control" onchange="GetStateddl(this.value,0)"
+                                                    name="ddlCountry" ClientIdMode="static" required="">
+                                                <option value="">Choose Country</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                            <div class="col-lg-3">
+                                                <label for="ddlState">State *:</label>
+                                            </div>
+                                        <div class="col-lg-6">
+                                            <select id="ddlState" class="form-control" onchange="GetCityddl(this.value,0)"
+                                            name="ddlState" ClientIdMode="static" required="">
+                                                <option value="">Choose State</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                            <div class="col-lg-3">
+                                                <label for="ddlCity">City *:</label>
+                                            </div>
+                                        <div class="col-lg-6">
+                                            <select id="ddlCity" class="form-control" name="ddlCity" ClientIdMode="static" required="">
+                                                <option value="">Choose City</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <label for="PinCode">Pincode * :</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" name="PinCode" id="PinCode" required placeholder="Pincode">
+                                            </div>
+                                        </div>
+                                    </div>
+                               <!-- 
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <label>Is Active :</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="checkbox checkbox-pink mb-0">
+                                                <input type="checkbox" name="isactive" id="isactive" ClientIdMode="static" 
+                                                                value="1" data-parsley-mincheck="1" >
+                                                <label for="isactive"> Is active </label>
+                                            </div>
+                                        </div>   
+                                    </div>                                     
+                                </div>    
+                            -->
+                                <div class="form-group mb-0">
+                                    <button class="btn btn-primary" type="submit" >Save</button>
+                                </div>
+
+                            </form>
+                        </div> <!-- end card-box-->
+                    </div> <!-- end col-->
+                </div>
+                <!-- end row-->
+
+            </form>
+            
+            </div> <!-- end container -->
+
+    <!-- Plugins js-->
+    <script src="static/plugins/flatpickr/flatpickr.min.js"></script>
+    <script src="static/plugins/jquery-knob/jquery.knob.min.js"></script>
+    <!--<script src="static/assets/libs/jquery-sparkline/jquery.sparkline.min.js"></script>-->

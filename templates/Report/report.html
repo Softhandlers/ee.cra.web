@@ -1,0 +1,181 @@
+
+   <link href="static/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+   <link href="static/assets/css/icons.css" rel="stylesheet" type="text/css" />
+   <link href="static/assets/css/style.css" rel="stylesheet" type="text/css" />
+   <link href="static/plugins/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="static/assets/js/jquery.min.js"></script>
+    <!-- Plugins js-->
+    <script src="static/plugins/flatpickr/flatpickr.min.js"></script>
+    <script src="static/plugins/jquery-knob/jquery.knob.min.js"></script>
+    <!--<script src="static/assets/libs/jquery-sparkline/jquery.sparkline.min.js"></script>-->
+    <script type="text/javascript">
+    
+        $(document).ready(function(){
+            $(".date-picker").flatpickr({
+                dateFormat:'d-M-Y'
+            });
+            LoadBiceddl();
+        });
+        
+        function LoadBiceddl(){
+            var URL=$('#hdn_web_url').val()+ "/GetAllBice"
+            $.ajax({
+                type:"GET",
+                url:URL,
+                async:false,
+                beforeSend:function(x){ if(x && x.overrideMimeType) { x.overrideMimeType("application/json;charset=UTF-8"); } },
+                datatype:"json",
+                success: function (data){
+                    if(data.Bice != null)
+                    {
+                        $('#ddlBice').empty();
+                        var count=data.Bice.length;
+                        if( count> 0)
+                        {
+                            $('#ddlBice').append(new Option('Choose Bice','0'));
+                            for(var i=0;i<count;i++)
+                                $('#ddlBice').append(new Option(data.Bice[i].Bice_Name,data.Bice[i].Bice_Id));
+                        }
+                        else
+                        {
+                            $('#ddlBice').append(new Option('Choose Bice','0'));
+                        }
+                    }
+                },
+                error:function(err)
+                {
+                    alert('Error! Please try again');
+                    return false;
+                }
+            });
+            return false;
+        }
+        function GetDate(str){
+            var months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+            var arr=str.split("-");
+            var month = months.indexOf(arr[1].toLowerCase());
+            return new Date(parseInt(arr[2]), month, parseInt(arr[0]));
+        }
+        function add_popup_message(){
+            from_date=GetDate($('#FromDate').val());
+            to_date=GetDate($("#ToDate").val());
+            if((from_date <= to_date))
+            {
+                if($('#FromDate').val() =='' || $('#ToDate').val()=='')
+                {
+                    swal({  //title:"Error",
+                        text:"Please select from date and to date",
+                        //icon:"error",
+                        confirmButtonClass:"btn btn-confirm mt-2"
+                        });
+                }
+                else{
+                    $('form[name=SubmitReport]').attr('action','/download_report');
+                    $('form[name=SubmitReport]').submit();
+                    /*
+                    var URL=$('#hdn_web_url').val()+ "/download_report";
+                    var bice_id= $('#ddlBice').val()==''?'0' : $('#ddlBice').val();
+                        $.ajax({
+                            type:"POST",
+                            url:URL,
+                            data:{         
+                                "BiceId": bice_id,
+                                "FromDate":$('#FromDate').val(),
+                                "ToDate":$('#ToDate').val()
+                            },
+                            success:function(data){
+                                
+                                window.open('/Downloads/'+data.FileName+'.xlsx','Download');
+                            },
+                            error:function(x){
+                                alert('error');
+                            }
+                        });
+                */
+                }
+                
+            }
+            else{
+                swal({  title:"Error",
+                        text:"From date must be less than the To date",
+                        icon:"error",
+                        confirmButtonClass:"btn btn-confirm mt-2"
+                        });
+            }
+        }
+
+    </script>
+            <div class="container-fluid">
+                <form action="javascript:add_popup_message();" name="SubmitReport" id="SubmitReport" method="POST">
+                <!-- start page title -->
+                <div class="row">
+                    
+                </div>     
+                <!-- end page title --> 
+                <br/>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card-box">
+                            <h4 class="header-title">Candidate report</h4>
+                            
+                            <br/>
+                            <div class="alert alert-warning d-none fade show">
+                                <h4>Oh snap!</h4>
+                                <p class="mb-0">This form seems to be invalid :(</p>
+                            </div>
+
+                            <div class="alert alert-info d-none fade show">
+                                <h4>Yay!</h4>
+                                <p class="mb-0">Everything seems to be ok :)</p>
+                            </div>
+
+                            <form id="demo-form" data-parsley-validate="">
+                                
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <label for="ddlBice">Bice :</label>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <select id="ddlBice" class="form-control" 
+                                                    name="ddlBice" ClientIdMode="static" >
+                                                <option value="0">Choose Bice</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                                <label for="FromDate">From Date *:</label>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <input type="text" id="FromDate" name="FromDate" class="form-control date-picker" ClientIdMode="static" placeholder="From Date" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                                <label for="ToDate">To Date *:</label>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <input type="text" id="ToDate" name="ToDate" class="form-control date-picker" ClientIdMode="static" placeholder="To Date" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-0">
+                                    <button class="btn btn-primary" type="submit" >Download Report</button>
+                                </div>
+
+                            </form>
+                        </div> <!-- end card-box-->
+                    </div> <!-- end col-->
+                </div>
+                <!-- end row-->
+
+            </form>
+            
+            </div> <!-- end container -->
+
+    

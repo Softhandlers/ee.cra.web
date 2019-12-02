@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+ <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head>
+        <meta charset="utf-8" />
+        <title>EE</title>
+        <meta content="Admin Dashboard" name="description" />
+        <meta content="Themesbrand" name="author" />
+        <link rel="shortcut icon" href="static/assets/images/ee.ico">
+        <!-- App favicon -->
+<link rel="shortcut icon" href="static/assets/images/ee.ico">
+        
+
+ <!-- App css -->
+<link href="static/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="static/assets/css/icons.css" rel="stylesheet" type="text/css" />
+<link href="static/assets/css/style.css" rel="stylesheet" type="text/css" />
+  </head>
+    <body class="pb-0">
+                <div class="home-btn d-none d-sm-block">
+        </div>
+
+        <div class="wrapper-page">
+            <div class="card overflow-hidden account-card mx-3">
+                <div class="p-4 text-white text-center position-relative" style="background-color: #523f4b;">
+                    <h4 class="font-20 m-b-5" style="color: #abd017;">Welcome Back !</h4>
+                    <p class="text-white-50 mb-4">Sign in to continue.</p>
+                </div>
+                <div class="account-card-content"> 
+                    <form class="form-horizontal m-t-30" method="POST" action="/login">
+                        <div class="form-group">
+                            <label for="username">User Name</label>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="userpassword">Password</label>
+                            <input type="password" class="form-control" id="userpassword" name="userpassword" placeholder="Enter password" required>
+                        </div>
+
+                        <div class="form-group row m-t-20">
+                            <div class="col-sm-6">
+                               
+                            </div>
+                            <div class="col-sm-6 text-right">
+                                <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Log In</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- end wrapper-page -->
+        <!-- App's Basic Js  -->
+<script src="static/assets/js/jquery.min.js"></script>
+<script src="static/assets/js/bootstrap.bundle.min.js"></script>
+<script src="static/assets/js/jquery.slimscroll.js"></script>
+<script src="static/assets/js/waves.min.js"></script>
+<script src="static/plugins/sweet-alert2/sweetalert.min.js"></script>
+<script>
+    $(document).ready(function(){
+    var swalText;
+        if('{{error}}' != "" )
+        {
+            if('{{error}}'=="wrong")
+                swalText="Invalid User-Id or Password !!";            
+            else if('{{error}}'=="Session Time Out!!")
+                    swalText="Session Timed Out"; 
+                else
+                    swalText='{{error}}';
+            swal({   title:"Error!!",
+                        text:swalText,
+                        icon:"error",
+                        confirmButtonClass:"btn btn-confirm mt-2"
+                        }).then(function(){
+                            window.location.href = '/EraseDisplayMsg';
+                        });
+        }
+    });
+</script>
+ 
+<!-- App js-->
+<script src="static/assets/js/app.js"></script>
+
+
+    
+    </body>
+</html>

@@ -1,0 +1,90 @@
+
+        <!-- Plugins css -->
+        <link href="static/plugins/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+        
+         <!-- third party css -->
+         <link href="static/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+         <link href="static/plugins/datatables/responsive.dataTables.min.css" rel="stylesheet" type="text/css" />
+        
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+        <form id='form1' method="POST" action="/assign_bice_add_edit_to_home">
+            
+                <input type="hidden" id="hdn_bice_id" name="hdn_bice_id" value="0">
+                <div class="container-fluid">
+    
+                    <!-- start page title -->
+                    <div class="row">
+                       <!-- <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">LN</a></li>
+                                        <li class="breadcrumb-item active">Qualification Pack</li>
+                                    </ol>
+                                </div>
+                                <h4 class="page-title">Qualification Pack</h4>
+                            </div>
+                        </div>
+                        -->
+                    </div>     
+                    <br/>
+                    <!-- end page title -->
+    
+                    <div id="get" class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <h4 class="header-title">Bice List</h4>
+                                        </div>
+                                        <div class="col-lg-6" >                                        
+                                                <button style="float: right" type="submit" id="btn_create" class="btn btn-primary">Create Bice</a>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div class="col-lg-12">
+                                        <table id="tbl_bice" class="table dt-responsive nowrap">
+                                            <thead>
+                                                <tr>
+                                                    <th>S No</th>                                                    
+                                                    <th>Bice Name</th>
+                                                    <th>Actions</th>                                                   
+                                                </tr>
+                                            </thead>
+                                        
+                                        <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div> <!-- end card body-->
+                            </div> <!-- end card -->
+                        </div><!-- end col-->
+                    </div>
+                    <!-- end row-->    
+                </div> <!-- end container -->
+            
+            <!-- end wrapper -->
+        </form>
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+        <!-- Footer Start -->
+        
+        
+
+        <!-- third party js -->
+        <script src="static/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="static/plugins/datatables/dataTables.bootstrap4.js"></script>
+        <script src="static/plugins/datatables/dataTables.responsive.min.js"></script>
+        <script src="static/plugins/datatables/responsive.bootstrap4.min.js"></script>
+        <script src="static/plugins/datatables/dataTables.buttons.min.js"></script>
+        <script src="static/plugins/datatables/buttons.bootstrap4.min.js"></script>
+        <script src="static/plugins/datatables/buttons.html5.min.js"></script>
+        <script src="static/plugins/datatables/buttons.flash.min.js"></script>
+        <script src="static/plugins/datatables/buttons.print.min.js"></script>
+        <script src="static/plugins/datatables/dataTables.keyTable.min.js"></script>
+        <script src="static/plugins/datatables/dataTables.select.min.js"></script>        
+        <!-- third party js ends -->
+        <script src="static/js/bice-list.js"></script>
