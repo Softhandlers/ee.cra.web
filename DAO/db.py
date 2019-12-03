@@ -15,7 +15,8 @@ class DataAccess:
             cur.callproc('users.user_authenticate',(email,passw,device_model,android_version,app_version,imei))
             #cur.execute("SELECT u.user_id,u.user_name,u.user_role_id FROM users.tbl_users AS u LEFT JOIN users.tbl_user_details AS ud ON ud.user_id=u.user_id where ud.email='"+email+"' AND u.password='"+passw+"';")
             for row in cur:
-                tr.append(row)
+                if row[0]!= None:
+                    tr.append(row)
             cur.close()  
             con.close()          
         except (Exception,db.DatabaseError) as e:
@@ -123,28 +124,47 @@ class DataAccess:
             Country.append(h)
         
         State=[]
-        cur2.execute("SELECT state_id,state_name,country_id FROM   regions.tbl_states ;")
+        cur2.execute('''SELECT 		s.state_id,
+                                    s.state_name,
+                                    s.country_id,
+                                    c.city_id,
+                                    c.city_name 
+                        FROM   		regions.tbl_cities as c
+                        LEFT JOIN	regions.tbl_states as s ON s.state_id=c.state_id''')
+        data=cur2.fetchall()
+        state_ids = set(list(map(lambda x:x[0], data)))
+        for  i in state_ids:
+            temp={}
+            temp_state_id = list(filter(lambda x: x[0]==i, data))
+            temp['State_Id'] = 0 if temp_state_id[0][0]==None else temp_state_id[0][0]
+            temp['State_Name'] = temp_state_id[0][1]
+            temp['Country_Id']=temp_state_id[0][2]
+            temp['Cities'] = [{'City_Id':0 if city[3]==None else city[3], 'City_Name':city[4]} for city in temp_state_id]
+                
+            State.append(temp)
+        '''
         columns = [column[0].title() for column in cur2.description]
         for row in cur2:
             h = {""+columns[0]+"":row[0],""+columns[1]+"":row[1],""+columns[2]+"":row[2]}
             State.append(h)
         
         City=[]
-        cur2.execute('''SELECT 
+        cur2.execute(SELECT 
                                     c.city_id,
                                     c.city_name,
                                     c.state_id,
                                     s.country_id
                             FROM regions.tbl_cities c
-                            LEFT JOIN	regions.tbl_states s on s.state_id=c.state_id;''')
+                            LEFT JOIN	regions.tbl_states s on s.state_id=c.state_id;)
         columns = [column[0].title() for column in cur2.description]
         for row in cur2:
             h = {""+columns[0]+"":row[0],""+columns[1]+"":row[1],""+columns[2]+"":row[2],""+columns[3]+"":row[3]}
             City.append(h)
-        
+            ,"City":City
+        '''
         cur2.close()
         con.close()
-        return {"Bice": Bice, "Banks":Bank, "Country":Country,"State":State,"City":City}
+        return {"Success":True,"Description":"Success", "Bice": Bice, "Banks":Bank, "Country":Country,"State":State}
     def BiceDetails(BiceId):
         con = db.connect(conn_str)
         cur = con.cursor()        
