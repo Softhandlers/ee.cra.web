@@ -337,7 +337,7 @@ class GetCandidateList(Resource):
             CandidateName=request.form['candidate_name']
             res=Master.GetCandidateList(BiceId,UserId,CandidateName)
             if res==[]:
-                response={'Success':False,'Description':'Error fetching candidate list'}
+                response={'Success':False,'Description':'No candidates found'}
             else:
                 response={'Success':True,'Description':'Candidate List','candidates':res}
             return jsonify(response)
