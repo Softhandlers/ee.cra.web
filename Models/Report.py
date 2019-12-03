@@ -12,7 +12,7 @@ class Report:
     def CeateExcel(data,path):
         filename=''
         col=['Candidate_Id', 'Salutation', 'First_Name', 'Middle_Name', 'Last_Name', 'Bice_Name', 'Door_No_Street', 'City_Name', 'State_Name', 'Country_Name', 'Pincode', 'Dob', 'Mobile_Number', 'Max_Edu', 'Edu_Others', 'Id_Proof', 'Id_Number', 'Id_Others', 'Has_Bank', 'Bank_Name', 'Bank_Acc_Number', 'Created_By', 'Created_On', 'Bank_Image', 'Id_Proof_Image', 'Candidate_Image']
-        ImagePath=WebConfig.FileUploadPath
+        ImagePath=WebConfig.FilePath
         try:
             workbook = xlsxwriter.Workbook(path)
 
