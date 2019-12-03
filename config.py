@@ -1,6 +1,7 @@
 displaymsg=""
 WebUrl='http://127.0.0.1:5000'
 FileUploadPath='E:/Rohan/CRA/data/'
+FilePath='http://199.231.166.37/data/'
 ReportDownloadPath='E:/Rohan/CRA/Downloads/'
 secret_key = 'E&E_CRA'
 '''
