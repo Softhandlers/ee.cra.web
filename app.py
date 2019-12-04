@@ -162,6 +162,22 @@ def report():
     else:
         return render_template("login.html",error="Session Time Out!!")
 
+@app.route("/data/<path:path>")
+def get_file(path):
+    """Download a file."""
+    try :
+        
+        filename = r"{}{}".format(WebConfig.FileUploadPath,path)
+        if not(os.path.exists(filename)):
+            filename = r"{}{}".format(WebConfig.FileUploadPath,"No-image-found.jpg")
+            
+        print(filename)
+        return send_file(filename, mimetype='image/gif')
+        #return send_from_directory(UPLOAD_DIRECTORY, path, as_attachment=True)
+    except:
+        filename = r"{}{}".format(WebConfig.FileUploadPath,"No-image-found.jpg")
+        return send_file(filename, mimetype='image/gif')
+    
 class GetAllBice(Resource):
     @staticmethod
     def get():
