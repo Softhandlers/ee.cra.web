@@ -181,7 +181,8 @@ class DataAccess:
         try:
             con = db.connect(conn_str)
             cur = con.cursor()
-            cur.callproc('candidates.fn_register_candidate',(BiceId,Salutation,FirstName,MiddleName,LastName,CountryId,StateId,CityID,DoorNoStreet,Pincode,DOB,Mobile,MaximumEducation,EduOthers,ID_Proof,ID_Number,IdOthers,BankId,BankAccountNumber,UserId,CandidateImageName,IdImage,BankImage,HasBank))
+            cur.execute("SELECT candidates.fn_register_candidate(%s,%s::TEXT,%s::TEXT,%s::TEXT,%s::TEXT,%s,%s,%s,%s::TEXT,%s,%s::TEXT,%s,%s::TEXT,%s::TEXT,%s::TEXT,%s::TEXT,%s::TEXT,%s,%s::TEXT,%s,%s::TEXT,%s::TEXT,%s::TEXT,%s::TEXT);",(BiceId,Salutation,FirstName,MiddleName,LastName,CountryId,StateId,CityID,DoorNoStreet,Pincode,DOB,Mobile,MaximumEducation,EduOthers,ID_Proof,ID_Number,IdOthers,BankId,BankAccountNumber,UserId,CandidateImageName,IdImage,BankImage,HasBank,))
+            #cur.callproc('candidates.fn_register_candidate',(BiceId,Salutation,FirstName,MiddleName,LastName,CountryId,StateId,CityID,DoorNoStreet,Pincode,DOB,Mobile,MaximumEducation,EduOthers,ID_Proof,ID_Number,IdOthers,BankId,BankAccountNumber,UserId,CandidateImageName,IdImage,BankImage,HasBank))
             for row in cur:
                 pop=row[0]
             con.commit()
