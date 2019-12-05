@@ -42,7 +42,10 @@ class Report:
                 for k in range(len(col)-3):
                     worksheet.write(j+1,k ,data.iloc[j,k],write_format)                  
                 for l in range(k+1,len(col)):
-                    worksheet.write_url(j+1,l,ImagePath+data.iloc[j,l], url_format, string='Image', tip='Click to open image')
+                    if data.iloc[j,l]==None or data.iloc[j,l]=='':
+                        worksheet.write(j+1,l ,'NA',write_format)
+                    else:
+                        worksheet.write_url(j+1,l,ImagePath+data.iloc[j,l], url_format, string='Image', tip='Click to open image')
             
             
             workbook.close()
