@@ -279,8 +279,19 @@ class RegisterCandidate(Resource):
                 IdImage=str(request.form['id_image'])
                 BankImage=str(request.form['bank_image'])
                 HasBank=str(request.form['has_bank'])
-                
-                response=Master.RegisterCandidate(BiceId,Salutation,FirstName,MiddleName,LastName,CountryId,StateId,CityID,DoorNoStreet,Pincode,DOB,Mobile,MaximumEducation,EduOthers,ID_Proof,ID_Number,IdOthers,BankId,BankAccountNumber,UserId,CandidateImageName,IdImage,BankImage,HasBank)
+                FatherName=''
+                MotherName=''
+                Religion=''
+                Caste=''
+                if 'father_name' in request.form:
+                    FatherName=str(request.form['father_name'])
+                if 'mother_name' in request.form:
+                    MotherName=str(request.form['mother_name'])
+                if 'religion' in request.form:
+                    Religion=str(request.form['religion'])
+                if 'caste' in request.form:
+                    Caste=str(request.form['caste'])
+                response=Master.RegisterCandidate(BiceId,Salutation,FirstName,MiddleName,LastName,CountryId,StateId,CityID,DoorNoStreet,Pincode,DOB,Mobile,MaximumEducation,EduOthers,ID_Proof,ID_Number,IdOthers,BankId,BankAccountNumber,UserId,CandidateImageName,IdImage,BankImage,HasBank,FatherName,MotherName,Religion,Caste)
 
             except Exception as e:
                 response={'Success':False,'Description':'Error '+str(e)}
